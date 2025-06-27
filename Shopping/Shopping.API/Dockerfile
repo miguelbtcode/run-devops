@@ -8,7 +8,7 @@ WORKDIR /src
 COPY ["Shopping/Shopping.API/Shopping.API.csproj", "Shopping.API/"]
 RUN dotnet restore "Shopping.API/Shopping.API.csproj"
 COPY . .
-WORKDIR "/src/Shopping.API"
+WORKDIR "/src/Shopping/Shopping.API"
 RUN dotnet build "./Shopping.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
