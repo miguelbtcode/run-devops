@@ -1,14 +1,14 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Shopping/Shopping.API/Shopping.API.csproj", "Shopping.API/"]
+COPY ["Shopping.API/Shopping.API.csproj", "Shopping.API/"]
 RUN dotnet restore "Shopping.API/Shopping.API.csproj"
 COPY . .
-WORKDIR "/src/Shopping/Shopping.API"
+WORKDIR "/src/Shopping.API"
 RUN dotnet build "./Shopping.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
