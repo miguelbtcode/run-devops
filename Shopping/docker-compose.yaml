@@ -1,0 +1,59 @@
+﻿services:
+  shopping-api:
+    container_name: shopping-api
+    image: shopping-api
+    build:
+      context: .
+      dockerfile: Shopping.API/Dockerfile
+      platforms:
+        - linux/amd64
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - "DatabaseSettings:ConnectionString=mongodb://shopping-db:27017"
+    ports:
+      - "8000:80"
+    depends_on:
+      - shopping-db
+    networks:
+      - shopping-network
+
+  shopping-client:
+    container_name: shopping-client
+    image: shopping-client
+    build:
+      context: .
+      dockerfile: Shopping.Client/Dockerfile
+      platforms:
+        - linux/amd64
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - "ShoppingAPIURL=http://shopping-api:80"
+    ports:
+      - "8001:80"
+    depends_on:
+      - shopping-api
+    networks:
+      - shopping-network
+
+  shopping-db:
+    container_name: shopping-db
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=ShoppingDB
+    networks:
+      - shopping-network
+
+# Define volumes
+volumes:
+  mongodb_data:
+
+networks:
+  shopping-network:
+    driver: bridge

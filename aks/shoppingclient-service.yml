@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shoppingclient-service
+  labels:
+    app: shoppingclient
+spec:
+  selector:
+    app: shoppingclient
+  ports:
+    - name: shoppingclient
+      port: 80
+      protocol: TCP
+  type: LoadBalancer
