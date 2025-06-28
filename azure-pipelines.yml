@@ -30,17 +30,19 @@ stages:
           # vmImage: $(vmImageName)
           name: Default
         steps:
-          - task: Docker@2
-            displayName: Build and push an image to container registry
-            inputs:
-              command: buildAndPush
-              repository: $(imageRepository)
-              dockerfile: $(dockerfilePath)
-              containerRegistry: $(dockerRegistryServiceConnection)
-              buildContext: $(Build.SourcesDirectory)/Shopping
-              arguments: "--platform linux/amd64"
-              tags: |
-                $(tag)
+          - script: az acr login --name shoppingacr202506
+            displayName: "Login to ACR"
+
+          - script: |
+              docker buildx build \
+                --platform linux/amd64 \
+                -t $(containerRegistry)/$(imageRepository):$(tag) \
+                -f $(Build.SourcesDirectory)/Shopping/Shopping.API/Dockerfile \
+                $(Build.SourcesDirectory)/Shopping \
+                --push
+            displayName: "Build and push AMD64 image"
+            env:
+              DOCKER_BUILDKIT: 1
 
           - upload: manifests
             artifact: manifests
