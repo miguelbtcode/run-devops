@@ -2,6 +2,8 @@
 
 [![Build Status](https://dev.azure.com/mabt2206/shopping/_apis/build/status%2Fshoppingclient-pipeline?branchName=main)](https://dev.azure.com/mabt2206/shopping/_build/latest?definitionId=4&branchName=main)
 
+[![Build Status](https://dev.azure.com/mabt2206/shopping/_apis/build/status%2Fshoppingapi-pipeline?branchName=main)](https://dev.azure.com/mabt2206/shopping/_build/latest?definitionId=3&branchName=main)
+
 A simple microservices-based shopping application built with .NET 9, demonstrating containerization and Kubernetes deployment patterns.
 
 ## 🏗️ Architecture
