@@ -1,16 +1,70 @@
 # Shopping Microservices
 
-[![Build Status](https://dev.azure.com/mabt2206/shopping/_apis/build/status%2Fshoppingclient-pipeline?branchName=main)](https://dev.azure.com/mabt2206/shopping/_build/latest?definitionId=4&branchName=main)
+[![Shopping API Build](https://dev.azure.com/mabt2206/shopping/_apis/build/status%2Fshoppingapi-pipeline?branchName=main)](https://dev.azure.com/mabt2206/shopping/_build/latest?definitionId=3&branchName=main)
+[![Shopping Client Build](https://dev.azure.com/mabt2206/shopping/_apis/build/status%2Fshoppingclient-pipeline?branchName=main)](https://dev.azure.com/mabt2206/shopping/_build/latest?definitionId=4&branchName=main)
 
-[![Build Status](https://dev.azure.com/mabt2206/shopping/_apis/build/status%2Fshoppingapi-pipeline?branchName=main)](https://dev.azure.com/mabt2206/shopping/_build/latest?definitionId=3&branchName=main)
+![.NET](https://img.shields.io/badge/.NET-9.0-purple)
+![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Ready-326CE5)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 A simple microservices-based shopping application built with .NET 9, demonstrating containerization and Kubernetes deployment patterns.
 
 ## 🏗️ Architecture
 
+### Application Architecture
 - **Shopping.API**: RESTful API service for product management using MongoDB
 - **Shopping.Client**: MVC web application for product display
 - **MongoDB**: NoSQL database for product storage
+
+### Infrastructure Architecture
+
+```mermaid
+graph TB
+    User[👤 User] --> LB[⚖️ Load Balancer]
+    
+    subgraph "Azure Kubernetes Service (AKS)"
+        LB --> ClientSvc[🌐 Shopping Client Service<br/>Port 80]
+        LB --> APISvc[🔗 Shopping API Service<br/>Port 80]
+        
+        subgraph "Worker Nodes"
+            subgraph "Node 1"
+                ClientSvc --> ClientPod[📱 Shopping Client Pod<br/>ASP.NET Core MVC]
+                APISvc --> APIPod[🔧 Shopping API Pod<br/>ASP.NET Core Web API]
+            end
+            
+            subgraph "Node 2"
+                APISvc --> APIPod2[🔧 Shopping API Pod<br/>Replica]
+                DBSvc[🗄️ MongoDB Service<br/>Port 27017] --> DBPod[📊 MongoDB Pod<br/>Database Storage]
+            end
+        end
+    end
+    
+    subgraph "External Services"
+        ACR[📦 Azure Container Registry<br/>Container Images]
+        DevOps[🚀 Azure DevOps<br/>CI/CD Pipelines]
+    end
+    
+    APIPod --> DBSvc
+    APIPod2 --> DBSvc
+    ClientPod -.->|HTTP Calls| APISvc
+    
+    DevOps -.->|Deploy| ClientPod
+    DevOps -.->|Deploy| APIPod
+    ACR -.->|Pull Images| ClientPod
+    ACR -.->|Pull Images| APIPod
+    
+    classDef userClass fill:#e1f5fe
+    classDef serviceClass fill:#f3e5f5
+    classDef podClass fill:#e8f5e8
+    classDef dbClass fill:#fff3e0
+    classDef externalClass fill:#fce4ec
+    
+    class User userClass
+    class ClientSvc,APISvc,DBSvc serviceClass
+    class ClientPod,APIPod,APIPod2,DBPod podClass
+    class ACR,DevOps externalClass
+```
 
 ## 🚀 Quick Start
 
@@ -18,8 +72,8 @@ A simple microservices-based shopping application built with .NET 9, demonstrati
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/shopping-microservices.git
-cd shopping-microservices
+git clone https://github.com/miguelbtcode/shopping-microservices-k8s.git
+cd shopping-microservices-k8s
 
 # Run with Docker Compose
 docker-compose up -d
