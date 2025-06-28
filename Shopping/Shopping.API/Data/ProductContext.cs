@@ -77,7 +77,7 @@ public class ProductContext
             },
             new Product
             {
-                Name = "LG G7 ThinQ New20",
+                Name = "LG G7 ThinQ Ending",
                 Description =
                     "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
                 ImageFile = "product-6.png",

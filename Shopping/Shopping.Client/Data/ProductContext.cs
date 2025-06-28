@@ -13,7 +13,7 @@ public static class ProductContext
                 "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
             ImageFile = "product-1.png",
             Price = 950.00M,
-            Category = "Smart Phone"
+            Category = "Smart Phone",
         },
         new()
         {
@@ -22,7 +22,7 @@ public static class ProductContext
                 "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
             ImageFile = "product-2.png",
             Price = 840.00M,
-            Category = "Smart Phone"
+            Category = "Smart Phone",
         },
         new()
         {
@@ -31,7 +31,7 @@ public static class ProductContext
                 "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
             ImageFile = "product-3.png",
             Price = 650.00M,
-            Category = "White Appliances"
+            Category = "White Appliances",
         },
         new()
         {
@@ -40,7 +40,7 @@ public static class ProductContext
                 "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
             ImageFile = "product-4.png",
             Price = 470.00M,
-            Category = "White Appliances"
+            Category = "White Appliances",
         },
         new()
         {
@@ -49,16 +49,16 @@ public static class ProductContext
                 "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
             ImageFile = "product-5.png",
             Price = 380.00M,
-            Category = "Smart Phone"
+            Category = "Smart Phone",
         },
         new()
         {
-            Name = "LG G7 ThinQ EndofCourse",
+            Name = "LG G7 ThinQ Ending",
             Description =
                 "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
             ImageFile = "product-6.png",
             Price = 240.00M,
-            Category = "Home Kitchen"
-        }
+            Category = "Home Kitchen",
+        },
     ];
 }
