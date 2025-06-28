@@ -8,8 +8,8 @@ trigger:
       - main
   paths:
     include:
-      - Shopping/Shopping.API/*
-      - aks/shoppingapi-deployment.yml
+      - Shopping/Shopping.Client/*
+      - aks/shoppingclient-deployment.yml
 
 resources:
   - repo: self
@@ -17,7 +17,7 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: "6da8fb33-bd54-4406-a70d-b55a32b55815"
-  imageRepository: "shopping-api"
+  imageRepository: "shopping-client"
   containerRegistry: "shoppingacr202506.azurecr.io"
   dockerfilePath: "**/Dockerfile"
   tag: "$(Build.BuildId)"
@@ -43,7 +43,7 @@ stages:
               docker buildx build \
                 --platform linux/amd64 \
                 -t $(containerRegistry)/$(imageRepository):$(tag) \
-                -f $(Build.SourcesDirectory)/Shopping/Shopping.API/Dockerfile \
+                -f $(Build.SourcesDirectory)/Shopping/Shopping.Client/Dockerfile \
                 $(Build.SourcesDirectory)/Shopping \
                 --push
             displayName: "Build and push AMD64 image"
@@ -80,8 +80,8 @@ stages:
                   inputs:
                     action: deploy
                     manifests: |
-                      $(Pipeline.Workspace)/aks/shoppingapi-deployment.yml
-                      $(Pipeline.Workspace)/aks/shoppingapi-service.yml
+                      $(Pipeline.Workspace)/aks/shoppingclient-deployment.yml
+                      $(Pipeline.Workspace)/aks/shoppingclient-service.yml
                     imagePullSecrets: |
                       $(imagePullSecret)
                     containers: |
